@@ -1,0 +1,30 @@
+
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. ELIGIBILITY.
+
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+
+       01 CUSTOMER-AGE PIC 999.
+       01 VERIFY-FLAG  PIC X.
+
+       PROCEDURE DIVISION.
+
+           DISPLAY "ENTER CUSTOMER AGE:"
+           ACCEPT CUSTOMER-AGE
+
+           DISPLAY "ENTER VERIFICATION FLAG (Y/N):"
+           ACCEPT VERIFY-FLAG
+
+           IF CUSTOMER-AGE >= 18
+              AND CUSTOMER-AGE <= 120
+              AND (VERIFY-FLAG = 'Y' OR VERIFY-FLAG = 'y')
+
+               DISPLAY "ELIGIBLE"
+
+           ELSE
+               DISPLAY "NOT ELIGIBLE"
+
+           END-IF
+
+           STOP RUN.
