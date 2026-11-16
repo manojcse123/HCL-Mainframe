@@ -1,0 +1,70 @@
+
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. CREW-RRDS.
+
+       ENVIRONMENT DIVISION.
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+
+           SELECT CREW-FILE
+               ASSIGN TO "CREWRRDS.DAT"
+               ORGANIZATION IS RELATIVE
+               ACCESS MODE IS RANDOM
+               RELATIVE KEY IS WS-CREW-RRN
+               FILE STATUS IS WS-CREW-STATUS.
+
+       DATA DIVISION.
+       FILE SECTION.
+
+       FD CREW-FILE.
+       01 CREW-RECORD.
+          05 CREW-BASE PIC X(10).
+          05 CREW-NAME PIC X(25).
+          05 CREW-STATUS PIC X(10).
+
+       WORKING-STORAGE SECTION.
+
+       01 WS-CREW-RRN PIC 9(4).
+       01 WS-CREW-STATUS PIC XX.
+       01 WS-CREW-DATA.
+          05 WS-BASE PIC X(10).
+          05 WS-NAME PIC X(25).
+          05 WS-STATUS PIC X(10).
+
+       PROCEDURE DIVISION.
+
+       MAIN-PARA.
+
+           OPEN OUTPUT CREW-FILE
+
+           MOVE "BASE-MAA" TO CREW-BASE
+           MOVE "CAPT. V. NAIR" TO CREW-NAME
+           MOVE "ACTIVE" TO CREW-STATUS
+
+           MOVE 412 TO WS-CREW-RRN
+
+           WRITE CREW-RECORD
+
+           DISPLAY "WRITE STATUS: " WS-CREW-STATUS
+
+           CLOSE CREW-FILE
+
+           OPEN INPUT CREW-FILE
+
+           MOVE 412 TO WS-CREW-RRN
+
+           READ CREW-FILE INTO WS-CREW-DATA
+
+           IF WS-CREW-STATUS = "00"
+               DISPLAY "CREW RECORD FOUND"
+               DISPLAY "BASE: " WS-BASE
+               DISPLAY "NAME: " WS-NAME
+               DISPLAY "STATUS: " WS-STATUS
+           ELSE
+               DISPLAY "RECORD NOT FOUND"
+               DISPLAY "FILE STATUS: " WS-CREW-STATUS
+           END-IF
+
+           CLOSE CREW-FILE
+
+           STOP RUN.
